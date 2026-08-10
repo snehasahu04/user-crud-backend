@@ -1,121 +1,207 @@
 # User CRUD Project (Django + Streamlit)
 
-Simple Django backend providing CRUD APIs for `UserProfile` and a Streamlit frontend dashboard.
+A full-stack CRUD application built with Django REST Framework and Streamlit.
 
-## Repo layout
+The project provides REST APIs for managing user profiles and a Streamlit-based dashboard to perform Create, Read, Update, and Delete (CRUD) operations through a simple web interface.
 
-- `backend/` - Django project (models, APIs, db.sqlite3)
-- `frontend/` - Streamlit dashboard (`streamlit_app.py`)
+Tech Stack
+Backend: Python, Django, Django REST Framework
+Frontend: Streamlit
+Database: SQLite
+API: REST API
+Environment: Python Virtual Environment
 
-## Requirements
+## Project Structure
 
-- Python 3.13 (used here)
-- A virtual environment is recommended
-
-## Setup (Windows / PowerShell)
-
-1. Open PowerShell and go to the backend folder:
-
-```powershell
-cd C:\user_crud_project\backend
+```text
+user-crud-backend/
+│
+├── backend/
+│   ├── config/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── asgi.py
+│   │   └── wsgi.py
+│   │
+│   ├── users/
+│   │   ├── migrations/
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   ├── views.py
+│   │   └── ...
+│   │
+│   ├── venv/
+│   │
+│   ├── create_admin_user.py
+│   ├── db.sqlite3
+│   ├── db.sqlite3.bak
+│   ├── manage.py
+│   ├── repair_manage.py
+│   └── requirement.txt
+│
+├── frontend/
+│   ├── __pycache__/
+│   └── streamlit_app.py
+│
+└── README.md
 ```
 
-2. Create and activate a venv (if you haven't already):
+### Backend
 
-```powershell
+The `backend/` directory contains the Django REST API.
+
+* `config/` — Django project configuration and settings
+* `users/` — UserProfile model, serializers, views, URLs, and migrations
+* `manage.py` — Django management utility
+* `create_admin_user.py` — Script for creating an admin user
+* `repair_manage.py` — Utility script for repairing the Django management setup
+* `requirement.txt` — Python dependencies
+* `db.sqlite3` — SQLite database used for local development
+* `db.sqlite3.bak` — Database backup file
+* `venv/` — Python virtual environment used for local development
+
+### Frontend
+
+The `frontend/` directory contains the Streamlit dashboard.
+
+* `streamlit_app.py` — Streamlit application that communicates with the Django REST API
+* `__pycache__/` — Python-generated cache files
+
+Features
+Create a new user profile
+View all users
+View individual user details
+Update user information
+Delete user profiles
+Django Admin interface for managing users
+Streamlit dashboard for interacting with the APIs
+SQLite database for local data storage
+
+API Endpoints
+Users
+Method	Endpoint	Description
+GET	/api/users/	Get all users
+POST	/api/users/	Create a new user
+GET	/api/users/<id>/	Get a specific user
+DELETE	/api/users/<id>/	Delete a user
+Setup
+1. Clone the Repository
+git clone https://github.com/snehasahu04/user-crud-backend.git
+cd user-crud-backend
+2. Create a Virtual Environment
+
+From the backend directory:
+cd backend
 python -m venv venv
+
+Activate the virtual environment:
+
 .\venv\Scripts\Activate.ps1
-```
-
-3. Install requirements:
-
-```powershell
+3. Install Dependencies
 python -m pip install -r requirement.txt
-```
-
-4. Apply migrations:
-
-```powershell
+4. Apply Database Migrations
 python manage.py makemigrations
 python manage.py migrate
-```
-
-5. Create admin user (example):
-
-```powershell
-# Interactive (recommended):
+5. Create an Admin User
 python manage.py createsuperuser
 
-# Or use the provided default created during setup in this workspace:
-Username: admin
-Password: Admin@123
-```
+Follow the prompts to create the Django admin account.
 
-6. Run the Django dev server:
+Run the Backend
 
-```powershell
+Start the Django development server:
+
 python manage.py runserver
-```
 
-## Streamlit frontend
+The backend will be available at:
 
-Make sure Django is running (step above), then in another terminal run:
+http://127.0.0.1:8000/
+Run the Streamlit Dashboard
 
-```powershell
+Open another terminal, activate the virtual environment, and run:
+
 cd C:\user_crud_project\backend
 .\venv\Scripts\Activate.ps1
 streamlit run ..\frontend\streamlit_app.py
-```
 
-Open the dashboard at `http://localhost:8501`.
+The Streamlit dashboard will be available at:
 
-## API Endpoints
+http://localhost:8501
+Django Admin
 
-- List / Create: `GET/POST http://127.0.0.1:8000/api/users/`
-- Retrieve / Update / Delete: `GET/PATCH/PUT/DELETE http://127.0.0.1:8000/api/users/<id>/`
+The Django Admin interface can be accessed at:
 
-Use the admin at `http://127.0.0.1:8000/admin/` to view and manage data.
+http://127.0.0.1:8000/admin/
 
-## Where data is stored
+It can be used to view and manage user profiles directly from the Django administration panel.
 
-The project uses SQLite by default. DB file:
+Database
 
-```
+The project uses SQLite for local development.
+
+Database file:
+
 backend/db.sqlite3
-```
+Application Flow
+Streamlit Dashboard
+        │
+        ▼
+Django REST API
+        │
+        ▼
+UserProfile Model
+        │
+        ▼
+SQLite Database
 
-## Git / Push to GitHub (example commands)
+The Streamlit frontend sends HTTP requests to the Django REST API. Django processes the request through the API layer and performs the required operation on the SQLite database.
 
-If you haven't initialized a Git repo yet, run these from the workspace root (`C:\user_crud_project`):
+CRUD Operations
 
-```powershell
-cd C:\user_crud_project
-git init
-git add .
-git commit -m "Initial commit: Django backend + Streamlit frontend"
-# create a remote repository on GitHub (via website) and copy the remote URL, then:
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git branch -M main
-git push -u origin main
-```
+The application supports the complete CRUD workflow:
 
-If you already have a remote, just add and push the branch:
+Create  →  Add a new user
+Read    →  View existing users
+Update  →  Modify user information
+Delete  →  Remove a user
+Running the Project Locally
 
-```powershell
-git add .
-git commit -m "Update: backend + frontend"
-git push
-```
+Start Django first:
 
-## Troubleshooting
+python manage.py runserver
 
-- If `streamlit` install fails on Windows due to NumPy builds, upgrade `pip`, `setuptools`, and `wheel` and install a Streamlit release with prebuilt wheels for Python 3.13 (example used `streamlit==1.61.1`).
-- If `DELETE` request returns `Method "DELETE" not allowed.`, ensure you are calling the detail endpoint with trailing slash: `/api/users/<id>/`.
+Then start Streamlit in a separate terminal:
 
-## Next steps / Notes
+streamlit run frontend/streamlit_app.py
 
-- Add frontend UI pages or a React app in the `frontend/` folder if you prefer a single-page app.
-- Remove any helper scripts that create users automatically, or rotate the admin password before sharing the repo publicly.
+Both services need to be running for the Streamlit dashboard to communicate with the Django API.
 
----
-Happy coding!
+Troubleshooting
+DELETE request returns "Method DELETE not allowed"
+
+Make sure you are using the detail endpoint with the user ID:
+
+/api/users/<id>/
+
+For example:
+
+http://127.0.0.1:8000/api/users/1/
+Streamlit installation issues
+
+If package installation fails, upgrade the Python packaging tools:
+
+python -m pip install --upgrade pip setuptools wheel
+
+Then install the project requirements again:
+
+python -m pip install -r requirement.txt
+Future Improvements
+Add authentication and authorization
+Add form validation
+Improve the Streamlit dashboard UI
+Add pagination and search functionality
+Add automated API tests
+Deploy the application to a cloud platform
